@@ -1,4 +1,4 @@
-package com.douglasjose.csv;
+package com.douglasjose.tech.csv;
 
 import java.io.*;
 import java.util.Map;
@@ -12,9 +12,14 @@ public class Csv {
 
     private Map<Integer, Map<Integer, String>> data = new HashMap<Integer, Map<Integer, String>>();
 
-    private CsvParser csvParser = new MSOfficeCsvParser(); // TODO Make it configurable
+    private CsvParser csvParser;
+    
     private int columns = 0;
     private int rows = 0;
+
+    public Csv(CsvParser parser) {
+        this.csvParser = parser;
+    }
 
     /**
      * Add the content to the position [row, column] of the file
