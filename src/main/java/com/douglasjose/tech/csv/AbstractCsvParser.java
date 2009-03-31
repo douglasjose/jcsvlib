@@ -1,4 +1,4 @@
-package com.douglasjose.csv;
+package com.douglasjose.tech.csv;
 
 import java.io.*;
 import java.util.List;

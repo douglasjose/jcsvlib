@@ -1,12 +1,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.douglasjose</groupId>
-    <artifactId>csv</artifactId>
+    <groupId>com.douglasjose.tech</groupId>
+    <artifactId>jcsvlib</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
-    <name>csv</name>
-    <url>http://maven.apache.org</url>
+    <version>0.1</version>
+    <name>jCSVlib</name>
+    <description>Java CSV (comma separated values) file parser</description>
+    <url>http://code.google.com/p/jcsvlib/</url>
     <build>
         <plugins>
             <plugin>
@@ -19,6 +20,12 @@
             </plugin>
         </plugins>
     </build>
+    <scm>
+        <connection>scm:svn:http://jcsvlib.googlecode.com/svn/trunk</connection>
+        <developerConnection>scm:svn:https://jcsvlib.googlecode.com/svn/trunk</developerConnection>
+        <tag>HEAD</tag>
+        <url>http://jcsvlib.googlecode.com/svn/trunk</url>
+    </scm>
     <dependencies>
         <dependency> 
             <groupId>junit</groupId>

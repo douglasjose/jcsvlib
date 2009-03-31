@@ -1,4 +1,4 @@
-package com.douglasjose.csv;
+package com.douglasjose.tech.csv;
 
 import java.io.OutputStream;
 import java.io.InputStream;

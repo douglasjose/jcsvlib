@@ -1,17 +1,19 @@
-package com.douglasjose.csv;
+package com.douglasjose.tech.csv;
 
 import junit.framework.TestCase;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
 
+import com.douglasjose.tech.csv.Csv;
+
 /**
  * @author Douglas Rodrigues
  */
-public class CsvTest extends TestCase {
+public class BasicCsvTest extends TestCase {
 
     public void testSimpleCsv() throws Exception {
-        Csv csv = new Csv();
+        Csv csv = CsvFactory.createMSOfficeCsv();
         InputStream is = new FileInputStream(".\\src\\test\\resources\\simple.csv");
         assertNotNull("No CVS file to read from", is);
 
