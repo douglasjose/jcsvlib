@@ -22,10 +22,12 @@ public class BasicCsv implements Csv {
     }
 
     /**
-     * Add the content to the position [row, column] of the file
+     * Add the content to the position [row, column] of the file.
+     * Silently replaces existing content.
+     *
      * @param row Zero-based row index
      * @param column Zero-based column index
-     * @param content
+     * @param content String to be stored
      */
     public void add(int row, int column, String content) {
         Map<Integer, String> rowMap = data.get(row);
@@ -43,11 +45,12 @@ public class BasicCsv implements Csv {
      * is no content in the given position.
      * @param row Zero-based row index
      * @param column Zero-based column index
-     * @return
+     * @return The content at a given position.
      */
     public String get(int row, int column) {
         if (row >= this.rows || column >= this.columns) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException("Invalid CSV position: [" + row + ","
+                    + column + "]");
         }
         Map<Integer, String> rowMap = data.get(row);
         if (rowMap != null) {
@@ -78,6 +81,44 @@ public class BasicCsv implements Csv {
         }
     }
 
+    /**
+     * Reads a CSV file from a stream
+     * 
+     * @param is Stream to read the CSV file from
+     * @throws IOException
+     */
+    public void load(InputStream is) throws IOException {
+        // Discarding any existing state
+        data = new HashMap<Integer, Map<Integer, String>>();
+        rows = 0;
+        columns = 0;
+        csvParser.loadFile(this, is);
+    }
+
+    /**
+     * Writes the CSV file to a stream.
+     *
+     * @param os Stream to write the CSV file to
+     * @throws IOException
+     */
+    public void store(OutputStream os) throws IOException {
+        csvParser.writeFile(this, os);
+    }
+
+    /**
+     * @return Number of columns in the file
+     */
+    public int getColumns() {
+        return columns;
+    }
+
+    /**
+     * @return Number of lines in the file
+     */
+    public int getRows() {
+        return rows;
+    }
+
     private void recalculateDimension() {
         rows = 0; columns = 0;
         Set<Integer> rowIndexes = data.keySet();
@@ -90,39 +131,4 @@ public class BasicCsv implements Csv {
         }
     }
 
-    /**
-     * Reads a CSV file from a stream
-     * @param is
-     * @throws IOException
-     */
-    public void load(InputStream is) throws IOException {
-        csvParser.loadFile(this, is);
-    }
-
-    /**
-     * Writes the CSV file to a stream
-     * @param os
-     * @throws IOException
-     */
-    public void store(OutputStream os) throws IOException {
-        csvParser.writeFile(this, os);
-    }
-
-    /**
-     * Number of columns in the file
-     *
-     * @return
-     */
-    public int getColumns() {
-        return columns;
-    }
-
-    /**
-     * Number of lines in the file
-     * 
-     * @return
-     */
-    public int getRows() {
-        return rows;
-    }
 }

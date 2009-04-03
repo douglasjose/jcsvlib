@@ -22,7 +22,7 @@ public abstract class AbstractCsvParser implements CsvParser {
         boolean hasTextDelimiter = content.indexOf(this.getTextDelimiter()) > -1;
         if (hasTextDelimiter) {
             // The text delimiter is escaped (duplicated)
-            out = out.replaceAll(this.getTextDelimiter(),
+            out = this.replaceAll(out, this.getTextDelimiter(),
                     this.getTextDelimiter() + this.getTextDelimiter());
         }
         if (hasFieldSeparator || hasTextDelimiter) {
@@ -76,9 +76,9 @@ public abstract class AbstractCsvParser implements CsvParser {
                 sb = new StringBuffer();
                 i += CHAR_FIELD_SEPARATOR.length - 1; // Skipping
             } else if (startsWith(cLine, CHAR_TEXT_DELIMITER, i)) {
-                // Text delimiter found; if single, flip the literal flag, if double, means
-                // it is part of the content
-                if (startsWith(cLine, CHAR_TEXT_DELIMITER_LITERAL, i)) {
+                // Text delimiter found; if single, flip the literal flag,
+                // if double and within a literal, means it is part of the content
+                if (literal && startsWith(cLine, CHAR_TEXT_DELIMITER_LITERAL, i)) {
                     sb.append(CHAR_TEXT_DELIMITER);
                     i += CHAR_TEXT_DELIMITER_LITERAL.length - 1;
                 } else {
@@ -112,6 +112,17 @@ public abstract class AbstractCsvParser implements CsvParser {
             }
         }
          return i == pattern.length;
+    }
+
+    private String replaceAll(String original, String replace, String replacement) {
+        StringBuffer sb = new StringBuffer(original.length());
+        int start = 0, end;
+        while ((end = original.indexOf(replace,  start)) > -1) {
+            sb.append(original.substring(start, end)).append(replacement);
+            start = end + replace.length();
+        }
+        sb.append(original.substring(start));
+        return sb.toString();
     }
 
     /**

@@ -11,8 +11,8 @@ public class CsvFactory {
 
     private CsvFactory() {} // Do not instantiate this class
 
-    public static Csv createMSOfficeCsv() {
-        return new BasicCsv(new MSOfficeCsvParser());
+    public static Csv createOfficeCsv() {
+        return new BasicCsv(new OfficeCsvParser());
     }
 
     public static Csv synchronizedCsv(Csv csv) {
