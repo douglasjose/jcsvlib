@@ -5,8 +5,6 @@ import junit.framework.TestCase;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
-import com.douglasjose.tech.csv.Csv;
-
 /**
  * @author Douglas Rodrigues
  */
