@@ -11,8 +11,8 @@ import java.io.InputStream;
 public class BasicCsvTest extends TestCase {
 
     public void testSimpleCsv() throws Exception {
-        Csv csv = CsvFactory.createMSOfficeCsv();
-        InputStream is = new FileInputStream(".\\src\\test\\resources\\simple.csv");
+        Csv csv = CsvFactory.createOfficeCsv();
+        InputStream is = new FileInputStream(".\\src\\test\\resources\\testSimpleCsv.csv");
         assertNotNull("No CVS file to read from", is);
 
         csv.load(is);

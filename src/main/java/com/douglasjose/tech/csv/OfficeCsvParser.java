@@ -3,7 +3,7 @@ package com.douglasjose.tech.csv;
 /**
  * @author Douglas Rodrigues
  */
-public class MSOfficeCsvParser extends AbstractCsvParser {
+public class OfficeCsvParser extends AbstractCsvParser {
 
     protected String getFieldSeparator() {
         return ","; // Comma
