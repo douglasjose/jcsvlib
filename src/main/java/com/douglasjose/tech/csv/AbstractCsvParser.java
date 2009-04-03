@@ -32,22 +32,6 @@ public abstract class AbstractCsvParser implements CsvParser {
         return out;
     }
 
-    /*
-    private String unescapeCell(String escapedContent) {
-        String out = escapedContent;
-        if (out.indexOf(this.getTextDelimiter()) > -1) {
-            // Remove surrounding text delimiter, in first and last positions
-            int dLength = this.getTextDelimiter().length();
-            out = out.substring(dLength, out.length() - dLength);
-
-            // Replace all duplicated delimiters
-            out = out.replaceAll(this.getTextDelimiter() + this.getTextDelimiter(),
-                    this.getTextDelimiter());
-        }        
-        return out;
-    }
-    */
-
     public void writeFile(Csv csv, OutputStream os) throws IOException {
         PrintWriter pw = new PrintWriter(os);
         for (int i = 0; i < csv.getRows(); i++) {
