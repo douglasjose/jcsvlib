@@ -17,7 +17,7 @@ public class Csv {
     private int columns = 0;
     private int rows = 0;
 
-    public Csv(CsvParser parser) {
+    protected Csv(CsvParser parser) {
         this.csvParser = parser;
     }
 

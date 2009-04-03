@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public abstract class AbstractCsvParser implements CsvParser {
 
     private final char[] CHAR_TEXT_DELIMITER = this.getTextDelimiter().toCharArray();
+    private final char[] CHAR_TEXT_DELIMITER_LITERAL =
+            (this.getTextDelimiter() + this.getTextDelimiter()).toCharArray();
     private final char[] CHAR_FIELD_SEPARATOR = this.getFieldSeparator().toCharArray();
 
     private String escapeCell(String content) {
@@ -30,6 +32,7 @@ public abstract class AbstractCsvParser implements CsvParser {
         return out;
     }
 
+    /*
     private String unescapeCell(String escapedContent) {
         String out = escapedContent;
         if (out.indexOf(this.getTextDelimiter()) > -1) {
@@ -43,6 +46,7 @@ public abstract class AbstractCsvParser implements CsvParser {
         }        
         return out;
     }
+    */
 
     public void writeFile(Csv csv, OutputStream os) throws IOException {
         PrintWriter pw = new PrintWriter(os);
@@ -68,7 +72,7 @@ public abstract class AbstractCsvParser implements CsvParser {
             List<String> fields = this.splitLine(line);
             columnNumber = 0;
             for (String field : fields) {
-                csv.add(lineNumber, columnNumber++, this.unescapeCell(field));
+                csv.add(lineNumber, columnNumber++, field);
             }
             lineNumber++;
         }
@@ -88,9 +92,15 @@ public abstract class AbstractCsvParser implements CsvParser {
                 sb = new StringBuffer();
                 i += CHAR_FIELD_SEPARATOR.length - 1; // Skipping
             } else if (startsWith(cLine, CHAR_TEXT_DELIMITER, i)) {
-                // Text delimiter found, flip the literal flag
-                literal = !literal;
-                i += CHAR_TEXT_DELIMITER.length - 1; // Skipping
+                // Text delimiter found; if single, flip the literal flag, if double, means
+                // it is part of the content
+                if (startsWith(cLine, CHAR_TEXT_DELIMITER_LITERAL, i)) {
+                    sb.append(CHAR_TEXT_DELIMITER);
+                    i += CHAR_TEXT_DELIMITER_LITERAL.length - 1;
+                } else {
+                    literal = !literal;
+                    i += CHAR_TEXT_DELIMITER.length - 1; // Skipping
+                }
             } else {
                 sb.append(cLine[i]);
             }
@@ -111,12 +121,13 @@ public abstract class AbstractCsvParser implements CsvParser {
      * @return
      */
     private boolean startsWith(char[] buffer, char[] pattern, int offset) {
-        for (int i = 0; i < pattern.length && offset + i < buffer.length; i++) {
+        int i;
+        for (i = 0; i < pattern.length && offset + i < buffer.length; i++) {
             if (buffer[offset + i] != pattern[i]) {
                 return false;
             }
         }
-        return true;
+         return i == pattern.length;
     }
 
     /**
