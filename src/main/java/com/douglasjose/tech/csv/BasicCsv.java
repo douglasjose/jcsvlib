@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
+ * Simple implementation of the {@link com.douglasjose.tech.csv.Csv} interface.
+ * Stores the content of the Csv as a sparse matrix in memory.
+ *
  * @author Douglas Rodrigues
  */
 public class BasicCsv implements Csv {
@@ -66,9 +69,9 @@ public class BasicCsv implements Csv {
      * Removes the content from the position [row, column].
      * @param row Zero-based row index
      * @param column Zero-based column index
+     * @return If the operation modified the data structure
      */
-    public void remove(int row, int column) {
-        // TODO Synchronize this
+    public boolean remove(int row, int column) {
         Map<Integer, String> rowMap = data.get(row);
         if (rowMap != null) {
             if (rowMap.containsKey(column)) {
@@ -77,8 +80,10 @@ public class BasicCsv implements Csv {
                     data.remove(row);
                 }                
                 recalculateDimension();
+                return true;
             }
         }
+        return false;
     }
 
     /**

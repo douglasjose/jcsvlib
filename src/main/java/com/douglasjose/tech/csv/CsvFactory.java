@@ -5,16 +5,32 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
+ * Utility class used to create {@link com.douglasjose.tech.csv.Csv} implementations based in a
+ * specific format.
+ * Can also provide synchronized <code>Csv</code> implementations.
+ *
  * @author Douglas Rodrigues
  */
 public class CsvFactory {
 
     private CsvFactory() {} // Do not instantiate this class
 
+    /**
+     * Creates a new Microsoft Office/OpenOffice compliant Csv data structure.
+     *
+     * @return Csv implementation
+     */
     public static Csv createOfficeCsv() {
         return new BasicCsv(new OfficeCsvParser());
     }
 
+    /**
+     * Creates a synchronized (thread-safe) <code>Csv</code> implementation, backed by the provided
+     * <code>Csv</code> object.
+     *
+     * @param csv The data structure to be wrapped by the synchronized <code>Csv</code>
+     * @return A thread-safe <code>Csv</code>
+     */
     public static Csv synchronizedCsv(Csv csv) {
         return new SynchronizedCsv(csv);
     }
@@ -41,9 +57,9 @@ public class CsvFactory {
             }
         }
 
-        public void remove(int row, int column) {
+        public boolean remove(int row, int column) {
             synchronized(mutex) {
-                csv.remove(row, column);
+                return csv.remove(row, column);
             }
         }
 
