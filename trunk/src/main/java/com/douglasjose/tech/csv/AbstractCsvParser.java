@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Skeleton interface class
+ * Skeleton interface class which provides a general <code>CsvParser</code> implementation.
+ * A common <code>CsvParser</code> implementation may be defined by extending this class and
+ * defining a text delimiter and a field delimiter for the CSV file.
  *
  * @author Douglas Rodrigues
  */
@@ -99,10 +101,6 @@ public abstract class AbstractCsvParser implements CsvParser {
     /**
      * Checks for the presence of a char array (<code>pattern</code>) as a subsequence in another
      * char array (<code>buffer</code>) starting from the position <code>offset</code>. 
-     * @param buffer
-     * @param pattern
-     * @param offset
-     * @return
      */
     private boolean startsWith(char[] buffer, char[] pattern, int offset) {
         int i;
@@ -114,6 +112,15 @@ public abstract class AbstractCsvParser implements CsvParser {
          return i == pattern.length;
     }
 
+    /**
+     * Replaces all the occurences of <code>replace</code> in <code>original</code> by <code>
+     * replacement</code>.
+     *
+     * @param original The original string
+     * @param replace The substring to be replaced
+     * @param replacement The replacement string
+     * @return The modified string
+     */
     private String replaceAll(String original, String replace, String replacement) {
         StringBuffer sb = new StringBuffer(original.length());
         int start = 0, end;
@@ -126,10 +133,16 @@ public abstract class AbstractCsvParser implements CsvParser {
     }
 
     /**
-     * Regular expression used to separate cells in the file
-     * @return
+     * String used to separate cells in the file.
+     *
+     * @return Field separator
      */
     protected abstract String getFieldSeparator();
 
+    /**
+     * String used to surround the content in a file.
+     *
+     * @return Text delimiter
+     */
     protected abstract String getTextDelimiter();
 }
