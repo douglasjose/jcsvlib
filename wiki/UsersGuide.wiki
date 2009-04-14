@@ -3,6 +3,8 @@
 
 = jCSVlib User's Guide =
 
+For more information, please refer to the project's [http://jcsvlib.googlecode.com/svn/docs/javadocs/0.1/index.html Javadoc].
+
 == Basic Usage ==
 
 === Creating a CSV instance ===
@@ -11,11 +13,53 @@
 Csv csv = CsvFactory.createOfficeCsv();
 }}}
 
-=== Creating a CSV instance ===
+=== Data structure manipulation ===
+
+{{{
+csv.add(0, 0, "mydata");
+csv.add(1, 1, "anotherdata");
+String content = csv.get(1, 1);  // content = "anotherdata"
+csv.remove(1, 1);
+int i = csv.getColumns();        // i = 1
+int j = csv.getRows();           // j = 1
+}}}
+
+=== Reading a CSV file from disk ===
 
 {{{
 Csv csv = CsvFactory.createOfficeCsv();
+InputStream is = new FileInputStream("SimpleCsv.csv");
+csv.load(is);
+}}}
+
+=== Writing a CSV file to disk ===
+
+{{{
+Csv csv = CsvFactory.createOfficeCsv();
+OutputStream os = new FileOutputStream("MyCsv.csv");
+csv.store(os);
 }}}
 
 
 == Advanced Features ==
+
+=== Creating a _thread-safe_ CSV implementation ===
+
+{{{
+Csv csv = CsvFactory.createOfficeCsv();
+Csv syncCsv = CsvFactory.synchronizedCsv(csv);
+}}}
+
+=== Customizing CSV delimiters ===
+
+{{{
+Csv customCsv = new BasicCsv(new AbstractCsvParser() {
+    protected String getFieldSeparator() {
+        return "'"; // Single quote instead of double quote
+    }
+
+    protected String getTextDelimiter() {
+        return ";"; // Semi-colon instead of comma
+    }
+});
+}}}
