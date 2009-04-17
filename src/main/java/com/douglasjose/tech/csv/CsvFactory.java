@@ -21,9 +21,19 @@ public class CsvFactory {
      * @return Csv implementation
      */
     public static Csv createOfficeCsv() {
-        return new BasicCsv(new OfficeCsvParser());
+        return new BasicCsv(new CustomDelimitersCsvParser(",", "\""));
     }
 
+    /**
+     * Creates a Csv with customized delimiters.
+     *
+     * @param fieldSeparator String used to separate fields in the file
+     * @param textDelimiter String used as text delimiter
+     * @return Customized Csv implementation
+     */
+    public static Csv createCsvWithCustomDelimiters(String fieldSeparator, String textDelimiter) {
+        return new BasicCsv(new CustomDelimitersCsvParser(fieldSeparator, textDelimiter));
+    }
     /**
      * Creates a synchronized (thread-safe) <code>Csv</code> implementation, backed by the provided
      * <code>Csv</code> object.
