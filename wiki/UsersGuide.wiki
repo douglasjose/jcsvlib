@@ -24,6 +24,19 @@ int i = csv.getColumns();        // i = 1
 int j = csv.getRows();           // j = 1
 }}}
 
+
+=== Iterating over the structure ===
+
+{{{
+String content;
+for (int i = 0; i < csv.getRows(); i++) {
+    for (int j = 0; j < csv.getColumns(); j++) {
+        content = csv.get(i, j);
+        System.out.println(content);
+    }
+}
+}}}
+
 === Reading a CSV file from disk ===
 
 {{{
@@ -53,13 +66,6 @@ Csv syncCsv = CsvFactory.synchronizedCsv(csv);
 === Customizing CSV delimiters ===
 
 {{{
-Csv customCsv = new BasicCsv(new AbstractCsvParser() {
-    protected String getFieldSeparator() {
-        return "'"; // Single quote instead of double quote
-    }
-
-    protected String getTextDelimiter() {
-        return ";"; // Semi-colon instead of comma
-    }
-});
+// Using single quote as text delimiter and semi-colon as field separator
+Csv customCsv = new BasicCsv(new CustomDelimitersCsvParser("'", ";"));
 }}}
