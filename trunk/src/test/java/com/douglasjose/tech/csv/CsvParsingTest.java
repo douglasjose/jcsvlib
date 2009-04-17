@@ -81,15 +81,7 @@ public class CsvParsingTest extends TestCase {
     }
 
     public void testSemicolonAsFieldSeparator() throws Exception {
-        Csv csv = new BasicCsv(new AbstractCsvParser() {
-            protected String getFieldSeparator() {
-                return ";";
-            }
-
-            protected String getTextDelimiter() {
-                return "\"";
-            }
-        });
+        Csv csv = CsvFactory.createCsvWithCustomDelimiters(";", "\"");
         String content1 = "A;B";
         String content2 = "A\"B";
 
@@ -117,15 +109,7 @@ public class CsvParsingTest extends TestCase {
     }
 
     public void testMulticharacterSeparators() throws Exception {
-        Csv csv = new BasicCsv(new AbstractCsvParser() {
-            protected String getFieldSeparator() {
-                return "[F]";
-            }
-
-            protected String getTextDelimiter() {
-                return "[T]";
-            }
-        });
+        Csv csv = CsvFactory.createCsvWithCustomDelimiters("[F]", "[T]");
 
         String content1 = "content";
         String content2 = "cont[F]ent";

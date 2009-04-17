@@ -5,18 +5,30 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
- * Skeleton interface class which provides a general <code>CsvParser</code> implementation.
- * A common <code>CsvParser</code> implementation may be defined by extending this class and
+ * Class which provides a general <code>CsvParser</code> implementation.
+ * A common <code>CsvParser</code> implementation may be defined by instantiating this class
  * defining a text delimiter and a field delimiter for the CSV file.
  *
  * @author Douglas Rodrigues
  */
-public abstract class AbstractCsvParser implements CsvParser {
+public class CustomDelimitersCsvParser implements CsvParser {
 
-    private final char[] CHAR_TEXT_DELIMITER = this.getTextDelimiter().toCharArray();
-    private final char[] CHAR_TEXT_DELIMITER_LITERAL =
-            (this.getTextDelimiter() + this.getTextDelimiter()).toCharArray();
-    private final char[] CHAR_FIELD_SEPARATOR = this.getFieldSeparator().toCharArray();
+    private final char[] CHAR_TEXT_DELIMITER;
+    private final char[] CHAR_TEXT_DELIMITER_LITERAL;
+    private final char[] CHAR_FIELD_SEPARATOR;
+
+    public CustomDelimitersCsvParser(String fieldSeparator, String textDelimiter) {
+        if (fieldSeparator == null || fieldSeparator.length() < 1) {
+            throw new IllegalArgumentException("Invalid field separator: [" + fieldSeparator + "]");
+        }
+        if (textDelimiter == null || textDelimiter.length() < 1) {
+            throw new IllegalArgumentException("Invalid text delimiter: [" + textDelimiter + "]");
+        }        
+        CHAR_TEXT_DELIMITER = textDelimiter.toCharArray();
+        CHAR_TEXT_DELIMITER_LITERAL = (textDelimiter + textDelimiter).toCharArray();
+        CHAR_FIELD_SEPARATOR = fieldSeparator.toCharArray();
+    }
+
 
     private String escapeCell(String content) {
         String out = content;
@@ -137,12 +149,16 @@ public abstract class AbstractCsvParser implements CsvParser {
      *
      * @return Field separator
      */
-    protected abstract String getFieldSeparator();
+    public String getFieldSeparator() {
+        return new String(CHAR_FIELD_SEPARATOR);
+    }
 
     /**
      * String used to surround the content in a file.
      *
      * @return Text delimiter
      */
-    protected abstract String getTextDelimiter();
+    public String getTextDelimiter() {
+        return new String(CHAR_TEXT_DELIMITER);
+    }
 }

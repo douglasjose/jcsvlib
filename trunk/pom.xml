@@ -4,7 +4,7 @@
     <groupId>com.douglasjose.tech</groupId>
     <artifactId>jcsvlib</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
+    <version>0.2</version>
     <name>jCSVlib</name>
     <description>Java CSV (comma separated values) file parser</description>
     <url>http://code.google.com/p/jcsvlib/</url>

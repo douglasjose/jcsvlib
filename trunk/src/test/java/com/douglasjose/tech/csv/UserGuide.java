@@ -20,14 +20,19 @@ public class UserGuide {
 
         Csv syncCsv = CsvFactory.synchronizedCsv(csv);
 
-        Csv customCsv = new BasicCsv(new AbstractCsvParser() {
-            protected String getFieldSeparator() {
-                return "'"; // Single quote instead of double quote
-            }
+        Csv customCsv = new BasicCsv(new CustomDelimitersCsvParser("'", ";"));
 
-            protected String getTextDelimiter() {
-                return ";"; // Semi-colon instead of comma
+        // Iterate over data structure
+        iterate(csv);
+    }
+
+    private static void iterate(Csv csv) {
+        String content;
+        for (int i = 0; i < csv.getRows(); i++) {
+            for (int j = 0; j < csv.getColumns(); j++) {
+                content = csv.get(i, j);
+                System.out.println(content);
             }
-        });
+        }
     }
 }
