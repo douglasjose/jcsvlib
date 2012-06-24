@@ -16,7 +16,7 @@ public class CsvFactory {
     private CsvFactory() {} // Do not instantiate this class
 
     /**
-     * Creates a new Microsoft Office/OpenOffice compliant Csv data structure.
+     * Creates a new Microsoft Office/LibreOffice/OpenOffice compliant Csv data structure.
      *
      * @return Csv implementation
      */

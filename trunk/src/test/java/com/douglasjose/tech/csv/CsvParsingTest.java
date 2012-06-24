@@ -25,7 +25,7 @@ public class CsvParsingTest extends TestCase {
         os.close();
 
         assertTrue("Wrong file content: " + file.getAbsolutePath(), TestUtils.identicalFiles(file,
-                new File(".\\src\\test\\resources\\testWriteCsv.txt")));
+                new File("./src/test/resources/testWriteCsv.txt")));
         file.deleteOnExit();
     }
 
@@ -41,7 +41,7 @@ public class CsvParsingTest extends TestCase {
         os.close();
 
         assertTrue("Wrong file content: " + file.getAbsolutePath(), TestUtils.identicalFiles(file,
-                new File(".\\src\\test\\resources\\testFieldSeparatorInContent.txt")));
+                new File("./src/test/resources/testFieldSeparatorInContent.txt")));
 
         InputStream is = new FileInputStream(file);
 
@@ -67,7 +67,7 @@ public class CsvParsingTest extends TestCase {
         os.close();
 
         assertTrue("Wrong file content: " + file.getAbsolutePath(), TestUtils.identicalFiles(file,
-                new File(".\\src\\test\\resources\\testFieldDelimiterInContent.txt")));
+                new File("./src/test/resources/testFieldDelimiterInContent.txt")));
 
         InputStream is = new FileInputStream(file);
 
@@ -95,7 +95,7 @@ public class CsvParsingTest extends TestCase {
         os.close();
 
         assertTrue("Wrong file content: " + file.getAbsolutePath(), TestUtils.identicalFiles(file,
-                new File(".\\src\\test\\resources\\testSemicolonAsFieldSeparator.txt")));
+                new File("./src/test/resources/testSemicolonAsFieldSeparator.txt")));
 
         InputStream is = new FileInputStream(file);
 
@@ -131,7 +131,7 @@ public class CsvParsingTest extends TestCase {
         os.close();
 
         assertTrue("Wrong file content: " + file.getAbsolutePath(), TestUtils.identicalFiles(file,
-                new File(".\\src\\test\\resources\\testMulticharacterSeparators.txt")));
+                new File("./src/test/resources/testMulticharacterSeparators.txt")));
 
         InputStream is = new FileInputStream(file);
 

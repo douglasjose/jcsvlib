@@ -12,7 +12,7 @@ public class BasicCsvTest extends TestCase {
 
     public void testSimpleCsv() throws Exception {
         Csv csv = CsvFactory.createOfficeCsv();
-        InputStream is = new FileInputStream(".\\src\\test\\resources\\testSimpleCsv.csv");
+        InputStream is = new FileInputStream("./src/test/resources/testSimpleCsv.csv");
         assertNotNull("No CVS file to read from", is);
 
         csv.load(is);
@@ -23,13 +23,13 @@ public class BasicCsvTest extends TestCase {
 
         try {
             csv.get(5, 1);
-            fail("Reading from inexisting row not throwing exception");
+            fail("Reading from nonexistent row is not throwing exception");
         } catch (IndexOutOfBoundsException e) {
             // good
         }
         try {
             csv.get(1, 5);
-            fail("Reading from inexisting column not throwing exception");
+            fail("Reading from nonexistent column is not throwing exception");
         } catch (IndexOutOfBoundsException e) {
             // good
         }
