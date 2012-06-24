@@ -13,9 +13,9 @@ import java.util.ArrayList;
  */
 public class CustomDelimitersCsvParser implements CsvParser {
 
-    private final char[] CHAR_TEXT_DELIMITER;
-    private final char[] CHAR_TEXT_DELIMITER_LITERAL;
-    private final char[] CHAR_FIELD_SEPARATOR;
+    private final char[] textDelimiter;
+    private final char[] textDelimiterLiteral;
+    private final char[] fieldSeparator;
 
     public CustomDelimitersCsvParser(String fieldSeparator, String textDelimiter) {
         if (fieldSeparator == null || fieldSeparator.length() < 1) {
@@ -24,16 +24,16 @@ public class CustomDelimitersCsvParser implements CsvParser {
         if (textDelimiter == null || textDelimiter.length() < 1) {
             throw new IllegalArgumentException("Invalid text delimiter: [" + textDelimiter + "]");
         }        
-        CHAR_TEXT_DELIMITER = textDelimiter.toCharArray();
-        CHAR_TEXT_DELIMITER_LITERAL = (textDelimiter + textDelimiter).toCharArray();
-        CHAR_FIELD_SEPARATOR = fieldSeparator.toCharArray();
+        this.textDelimiter = textDelimiter.toCharArray();
+        this.textDelimiterLiteral = (textDelimiter + textDelimiter).toCharArray();
+        this.fieldSeparator = fieldSeparator.toCharArray();
     }
 
 
     private String escapeCell(String content) {
         String out = content;
-        boolean hasFieldSeparator = content.indexOf(this.getFieldSeparator()) > -1;
-        boolean hasTextDelimiter = content.indexOf(this.getTextDelimiter()) > -1;
+        boolean hasFieldSeparator = content.contains(this.getFieldSeparator());
+        boolean hasTextDelimiter = content.contains(this.getTextDelimiter());
         if (hasTextDelimiter) {
             // The text delimiter is escaped (duplicated)
             out = this.replaceAll(out, this.getTextDelimiter(),
@@ -78,26 +78,31 @@ public class CustomDelimitersCsvParser implements CsvParser {
         is.close();
     }
 
+    /**
+     *
+     * @param line
+     * @return
+     */
     private List<String> splitLine(String line) {
         List<String> out = new ArrayList<String>();
         // If the current position points to a literal (within text delimiter) or not
         boolean literal = false;
         char[] cLine = line.toCharArray();
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < line.length(); i++) {
-            if (!literal && startsWith(cLine, CHAR_FIELD_SEPARATOR, i)) {
+            if (!literal && startsWith(cLine, fieldSeparator, i)) {
                 out.add(sb.toString());
-                sb = new StringBuffer();
-                i += CHAR_FIELD_SEPARATOR.length - 1; // Skipping
-            } else if (startsWith(cLine, CHAR_TEXT_DELIMITER, i)) {
+                sb = new StringBuilder();
+                i += fieldSeparator.length - 1; // Skipping
+            } else if (startsWith(cLine, textDelimiter, i)) {
                 // Text delimiter found; if single, flip the literal flag,
                 // if double and within a literal, means it is part of the content
-                if (literal && startsWith(cLine, CHAR_TEXT_DELIMITER_LITERAL, i)) {
-                    sb.append(CHAR_TEXT_DELIMITER);
-                    i += CHAR_TEXT_DELIMITER_LITERAL.length - 1;
+                if (literal && startsWith(cLine, textDelimiterLiteral, i)) {
+                    sb.append(textDelimiter);
+                    i += textDelimiterLiteral.length - 1;
                 } else {
                     literal = !literal;
-                    i += CHAR_TEXT_DELIMITER.length - 1; // Skipping
+                    i += textDelimiter.length - 1; // Skipping
                 }
             } else {
                 sb.append(cLine[i]);
@@ -112,7 +117,11 @@ public class CustomDelimitersCsvParser implements CsvParser {
 
     /**
      * Checks for the presence of a char array (<code>pattern</code>) as a subsequence in another
-     * char array (<code>buffer</code>) starting from the position <code>offset</code>. 
+     * char array (<code>buffer</code>) starting from the position <code>offset</code>.
+     * @param buffer
+     * @param pattern
+     * @param offset
+     * @return
      */
     private boolean startsWith(char[] buffer, char[] pattern, int offset) {
         int i;
@@ -121,7 +130,7 @@ public class CustomDelimitersCsvParser implements CsvParser {
                 return false;
             }
         }
-         return i == pattern.length;
+        return i == pattern.length;
     }
 
     /**
@@ -134,9 +143,9 @@ public class CustomDelimitersCsvParser implements CsvParser {
      * @return The modified string
      */
     private String replaceAll(String original, String replace, String replacement) {
-        StringBuffer sb = new StringBuffer(original.length());
+        StringBuilder sb = new StringBuilder(original.length());
         int start = 0, end;
-        while ((end = original.indexOf(replace,  start)) > -1) {
+        while ((end = original.indexOf(replace, start)) > -1) {
             sb.append(original.substring(start, end)).append(replacement);
             start = end + replace.length();
         }
@@ -150,7 +159,7 @@ public class CustomDelimitersCsvParser implements CsvParser {
      * @return Field separator
      */
     public String getFieldSeparator() {
-        return new String(CHAR_FIELD_SEPARATOR);
+        return new String(fieldSeparator);
     }
 
     /**
@@ -159,6 +168,6 @@ public class CustomDelimitersCsvParser implements CsvParser {
      * @return Text delimiter
      */
     public String getTextDelimiter() {
-        return new String(CHAR_TEXT_DELIMITER);
+        return new String(textDelimiter);
     }
 }

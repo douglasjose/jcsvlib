@@ -9,7 +9,7 @@ import java.io.IOException;
  * {@link com.douglasjose.tech.csv.Csv} data structure.
  * Implementations of this interface are expected to be components of implementations of the
  * <code>Csv</code> interface, isolating the persistence logic from any other implementation.
- * As there is no standard defining how a CSV file should be, this inteface allows a <code>Csv
+ * As there is no standard defining how a CSV file should be, this interface allows a <code>Csv
  * </code> data structure to be persisted in different formats. 
  *
  * @author Douglas Rodrigues
